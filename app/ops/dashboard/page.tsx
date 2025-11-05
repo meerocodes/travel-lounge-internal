@@ -12,11 +12,15 @@ import { useLanguage } from '@/providers/LanguageProvider';
 export default function DashboardPage() {
   const { t, isRTL } = useLanguage();
   const [refreshKey, setRefreshKey] = useState(0);
+  const [currentTime, setCurrentTime] = useState('');
 
   useEffect(() => {
+    setCurrentTime(new Date().toLocaleTimeString());
+
     const interval = setInterval(() => {
       setRefreshKey(prev => prev + 1);
-    }, 30000); // Refresh every 30 seconds
+      setCurrentTime(new Date().toLocaleTimeString());
+    }, 30000);
 
     return () => clearInterval(interval);
   }, []);
@@ -27,7 +31,7 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold text-gray-900">{t('dashboard.title')}</h1>
         <div className="flex items-center space-x-4">
           <div className="text-sm text-gray-500">
-            {t('dashboard.lastUpdated')}: {new Date().toLocaleTimeString()}
+            {t('dashboard.lastUpdated')}: {currentTime}
           </div>
         </div>
       </div>
